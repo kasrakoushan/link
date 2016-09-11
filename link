@@ -1,0 +1,92 @@
+# open a Dropbox paper file
+#!/bin/bash
+
+# set up index
+index=-1
+found=0
+
+# check if there is no argument or if  user is asking for help
+if [ $# -lt 1 ] || [ $1 = help ]
+then
+	echo "Options: help, list, add, remove, [keyword]"
+	exit 0
+# check if user is asking for the list of entries
+elif [ $1 = list ]
+then
+	cat $HOME/.shellscripts/names
+	exit 0
+# check if user is trying to add to entries
+elif [ $1 = add ] 
+then
+	if [ $# -eq 3 ]
+	then
+		echo Adding entry $2 with link $3 to database.
+		echo $2 >> $HOME/.shellscripts/names
+		echo $3 >> $HOME/.shellscripts/links
+		exit 0
+	else
+		echo Error: format for add is paper add [keyword] [link]
+		exit 1
+	fi
+# check if user is trying to remove from the entries
+elif [ $1 = remove ]
+then
+	if [ $# -eq 2 ]
+	then
+		# search for the queried entry
+		index=0
+		for name in $(cat $HOME/.shellscripts/names)
+		do
+			index=$(expr $index + 1)
+			if [ $2 = $name ]
+			then
+				# increase found count
+				found=$(expr $found + 1)
+				# remove the line from the file
+				sed -i '' ${index}d $HOME/.shellscripts/links
+				sed -i '' ${index}d $HOME/.shellscripts/names
+				# since we just deleted, decrement index
+				index=$(expr $index - 1)
+			fi
+		done
+
+		# print message
+		if [ $found -gt 0 ]
+		then
+			echo Removed entry $2.
+		else
+			echo No entry found with keyword $2.
+		fi
+		exit 0
+	else
+		echo Error: please enter one link to remove. Format is paper remove [keyword]
+		exit 1
+	fi
+fi
+
+# iterate through shortcuts (user is opening a link)
+for name in $(cat $HOME/.shellscripts/names)
+do
+	index=$(expr $index + 1)
+	if [ $1 = $name ]
+	then
+		count=-1
+		for link in $(cat $HOME/.shellscripts/links)
+		do
+			count=$(expr $count + 1)
+			if [ $count -eq $index ]
+			then
+				open -a Google\ Chrome $link
+				found=$(expr $found + 1)
+			fi
+		done
+	fi
+done
+
+# print a result message to the user
+if [ $found -lt 1 ]
+then
+	echo No entries found for $1.
+else
+	echo Total of $found entries found for $1.
+fi
