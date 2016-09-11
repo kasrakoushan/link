@@ -1,6 +1,22 @@
 # shell script for opening any web link (or file) with a keyword
 #!/bin/bash
 
+# first check that database files exist
+# if they do not, create them
+if ! [ -f "`dirname $0`/names" ]
+then
+	touch `dirname $0`/names
+else
+	echo "names exists"
+fi
+
+if ! [ -f "`dirname $0`/links" ]
+then
+	touch `dirname $0`/links
+else
+	echo "links exists"
+fi
+
 # set up index
 index=-1
 found=0
