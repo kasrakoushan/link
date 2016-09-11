@@ -1,4 +1,4 @@
-# open a Dropbox paper file
+# shell script for opening any web link (or file) with a keyword
 #!/bin/bash
 
 # set up index
@@ -25,7 +25,7 @@ then
 		echo $3 >> $HOME/.shellscripts/links
 		exit 0
 	else
-		echo Error: format for add is paper add [keyword] [link]
+		echo Error: format for add is link add [keyword] [link]
 		exit 1
 	fi
 # check if user is trying to remove from the entries
@@ -59,7 +59,7 @@ then
 		fi
 		exit 0
 	else
-		echo Error: please enter one link to remove. Format is paper remove [keyword]
+		echo Error: please enter one link to remove. Format is link remove [keyword]
 		exit 1
 	fi
 fi
