@@ -6,15 +6,11 @@
 if ! [ -f "`dirname $0`/names" ]
 then
 	touch `dirname $0`/names
-else
-	echo "names exists"
 fi
 
 if ! [ -f "`dirname $0`/links" ]
 then
 	touch `dirname $0`/links
-else
-	echo "links exists"
 fi
 
 # set up index
