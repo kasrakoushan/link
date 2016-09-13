@@ -3,7 +3,7 @@ A shell script for easily-accessible web bookmarks
 
 # Installation
 
-Just save Link somewhere on disk and add its path to your .bash_profile file. Wherever you save it, also add empty text files called links and names.
+Just save Link somewhere on disk and add its path to your .bash_profile file.
 
 # Commands
 
